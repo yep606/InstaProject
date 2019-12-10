@@ -53,7 +53,7 @@ public class Controller {
         Parent hashWindow = loader.getRoot();
         Stage window = new Stage();
         window.setTitle("Hashtags");
-        window.setScene(new Scene(hashWindow, 300,275));
+        window.setScene(new Scene(hashWindow, 700,400));
         window.show();
         return loader;
 

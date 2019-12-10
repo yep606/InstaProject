@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class InstaBot {
 
@@ -17,6 +18,10 @@ public class InstaBot {
     private JavascriptExecutor jExecutor;
     private List<String> pics;
     private List<String> hashtags;
+    private List<String> comments;
+    private String[] emoji = {new String(Character.toChars(0x1F60D)),
+            new String(Character.toChars(0x1F63B)),};
+
     private final String BASE_URL = "https://www.instagram.com";
 
 
@@ -30,7 +35,7 @@ public class InstaBot {
 
     public void loadDriver() {
 
-        System.setProperty("webdriver.chrome.driver", "/Users/tkhrn/IdeaProjects/seleniumTesting/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Илья\\IdeaProjects\\InstaProject\\chromedriver.exe");
         driver = new ChromeDriver();
         jExecutor = (JavascriptExecutor) driver;
 
@@ -54,11 +59,11 @@ public class InstaBot {
 
     public void collectPhoto(List<String> hashtags) {
 
-        String hashtag = hashtags.get((int) (Math.random() * hashtags.size() - 1));
+        String hashtag = hashtags.get((int) (Math.random() * hashtags.size()));
         hashtags.remove(hashtag);
 
         pics = new ArrayList<>();
-        driver.get(String.format("%s/explore/tagsController/%s/", BASE_URL, hashtag));
+        driver.get(String.format("%s/explore/tags/%s/", BASE_URL, hashtag));
 
         for (int i = 0; i < 6; i++) {
 
@@ -91,12 +96,11 @@ public class InstaBot {
 
     }
 
-    public void likePhoto() {
+    public void likeOrCommentPhoto() {
 
         collectPhoto(hashtags);
         int count = 0;
         int picsLength = pics.size();
-
 
         System.out.println("Будет пролайкано фото: " + picsLength);
         for (String pic : pics
@@ -109,8 +113,10 @@ public class InstaBot {
                 Thread.sleep(1000);
                 jExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight);");
                 Thread.sleep(2000);
-                driver.findElement(By.xpath("//button/span[@aria-label='Нравится']")).click();
-
+                if (new Random().nextDouble() < 0.7)
+                    driver.findElement(By.xpath("//button/span[@aria-label='Нравится']")).click();
+                else
+                    writeComment();
             } catch (Exception e) {
             }
             count++;
@@ -119,8 +125,27 @@ public class InstaBot {
 
     }
 
-    public void writeComment(){
+    public void writeComment() {
 
+        try {
+
+            Thread.sleep(1000);
+            jExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+            Thread.sleep(300);
+            WebElement commentBox = driver.findElement(By.cssSelector("form textarea"));
+            commentBox.click();
+            Thread.sleep(500);
+            commentBox = driver.findElement(By.cssSelector("form textarea"));
+            String comment = comments.get((int) (Math.random() * comments.size()));
+            commentBox.sendKeys(comment + emoji[(int) (Math.random() * 2)]);
+            Thread.sleep(1500);
+
+            driver.findElement(By.xpath("//button[text()='Опубликовать']")).click();
+            Thread.sleep(3000);
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
 
     }
@@ -131,6 +156,10 @@ public class InstaBot {
 
     public void setHashtags(List<String> hashtags) {
         this.hashtags = hashtags;
+    }
+
+    public void setComments(List<String> comments) {
+        this.comments = comments;
     }
 
     public WebDriver getDriver() {

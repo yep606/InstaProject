@@ -16,13 +16,20 @@ public class HashController{
     @FXML
     public TextArea hashArea;
 
+    @FXML
+    public TextArea commArea;
+
     public void submit() {
 
-        String[] hastags = hashArea.getText().split(" ");
-        List<String> hashTags = new ArrayList<>(Arrays.asList(hastags));
+        String[] tags = hashArea.getText().split(" ");
+        List<String> hashTags = new ArrayList<>(Arrays.asList(tags));
+        tags = commArea.getText().split(",");
+        List<String> comments = new ArrayList<>(Arrays.asList(tags));
+
         hashBot.setHashtags(hashTags);
+        hashBot.setComments(comments);
         while(!hashBot.getHashtags().isEmpty())
-            hashBot.likePhoto();
+            hashBot.likeOrCommentPhoto();
 
     }
 
