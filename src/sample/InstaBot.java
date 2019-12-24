@@ -19,8 +19,6 @@ public class InstaBot {
     private List<String> pics;
     private List<String> hashtags;
     private List<String> comments;
-    private String[] emoji = {new String(Character.toChars(0x1F60D)),
-            new String(Character.toChars(0x1F63B)),};
 
     private final String BASE_URL = "https://www.instagram.com";
 
@@ -35,7 +33,7 @@ public class InstaBot {
 
     public void loadDriver() {
 
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Илья\\IdeaProjects\\InstaProject\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "chromedriver");
         driver = new ChromeDriver();
         jExecutor = (JavascriptExecutor) driver;
 
@@ -113,8 +111,11 @@ public class InstaBot {
                 Thread.sleep(1000);
                 jExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight);");
                 Thread.sleep(2000);
-                if (new Random().nextDouble() < 0.7)
+                if (new Random().nextDouble() < 0.7) {
                     driver.findElement(By.xpath("//button/span[@aria-label='Нравится']")).click();
+                    Thread.sleep(1500);
+                }
+
                 else
                     writeComment();
             } catch (Exception e) {
@@ -137,7 +138,7 @@ public class InstaBot {
             Thread.sleep(500);
             commentBox = driver.findElement(By.cssSelector("form textarea"));
             String comment = comments.get((int) (Math.random() * comments.size()));
-            commentBox.sendKeys(comment + emoji[(int) (Math.random() * 2)]);
+            commentBox.sendKeys(comment);
             Thread.sleep(1500);
 
             driver.findElement(By.xpath("//button[text()='Опубликовать']")).click();
