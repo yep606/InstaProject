@@ -112,18 +112,22 @@ public class InstaBot {
                 jExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight);");
                 Thread.sleep(2000);
                 if (new Random().nextDouble() < 0.7) {
-                    driver.findElement(By.xpath("//button/span[@aria-label='Нравится']")).click();
-                    Thread.sleep(1500);
+                    like();
                 }
-
                 else
                     writeComment();
+
             } catch (Exception e) {
             }
             count++;
             System.out.println(String.format("Осталось %d", picsLength - count));
         }
 
+    }
+
+    public void like() throws InterruptedException {
+        driver.findElement(By.xpath("//button/span[@aria-label='Нравится']")).click();
+        Thread.sleep(1500);
     }
 
     public void writeComment() {
@@ -148,8 +152,8 @@ public class InstaBot {
             System.out.println(e);
         }
 
-
     }
+
 
     public List<String> getHashtags() {
         return hashtags;
