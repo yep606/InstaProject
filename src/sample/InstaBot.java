@@ -97,6 +97,11 @@ public class InstaBot {
     public void likeOrCommentPhoto() {
 
         collectPhoto(hashtags);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         int count = 0;
         int picsLength = pics.size();
 
@@ -110,14 +115,18 @@ public class InstaBot {
 
                 Thread.sleep(1000);
                 jExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight);");
-                Thread.sleep(2000);
                 if (new Random().nextDouble() < 0.7) {
-                    like();
+
+                    Thread.sleep(1000);
+                    driver.findElement(By.xpath("//*[@aria-label='Нравится']")).click();
+                    Thread.sleep(1000);
                 }
                 else
                     writeComment();
 
             } catch (Exception e) {
+
+                System.out.println(e);
             }
             count++;
             System.out.println(String.format("Осталось %d", picsLength - count));
@@ -125,9 +134,18 @@ public class InstaBot {
 
     }
 
-    public void like() throws InterruptedException {
-        driver.findElement(By.xpath("//button/span[@aria-label='Нравится']")).click();
-        Thread.sleep(1500);
+    public void like() {
+
+        try {
+            System.out.println("should like: ");
+
+            driver.findElements(By.className(".wpO6b ")).get(0).click();
+            System.out.println(driver.findElements(By.className(".wpO6b")).size());
+            Thread.sleep(1500);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void writeComment() {
