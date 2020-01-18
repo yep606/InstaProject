@@ -60,7 +60,7 @@ public class InstaBot {
         String hashtag = hashtags.get((int) (Math.random() * hashtags.size()));
         hashtags.remove(hashtag);
 
-        pics = new ArrayList<>();
+        pics = new ArrayList<String>();
         driver.get(String.format("%s/explore/tags/%s/", BASE_URL, hashtag));
 
         for (int i = 0; i < 6; i++) {
@@ -118,7 +118,7 @@ public class InstaBot {
                 if (new Random().nextDouble() < 0.7) {
 
                     Thread.sleep(1000);
-                    driver.findElement(By.xpath("//*[@aria-label='Нравится']")).click();
+                    driver.findElement(By.xpath("//*[@aria-label='Like']")).click();
                     Thread.sleep(1000);
                 }
                 else

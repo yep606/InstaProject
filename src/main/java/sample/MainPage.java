@@ -9,7 +9,7 @@ public class MainPage extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("mainPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../mainPage.fxml"));
         primaryStage.setTitle("InstaLike ;)");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();

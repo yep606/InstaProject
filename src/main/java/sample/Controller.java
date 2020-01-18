@@ -47,7 +47,7 @@ public class Controller {
     public FXMLLoader hashWindow() throws Exception{
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("tagsController/hashPage.fxml"));
+        loader.setLocation(getClass().getResource("../hashPage.fxml"));
         loader.load();
 
         Parent hashWindow = loader.getRoot();
