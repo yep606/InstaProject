@@ -120,8 +120,7 @@ public class InstaBot {
                     Thread.sleep(1000);
                     driver.findElement(By.xpath("//*[@aria-label='Like']")).click();
                     Thread.sleep(1000);
-                }
-                else
+                } else
                     writeComment();
 
             } catch (Exception e) {
@@ -142,8 +141,7 @@ public class InstaBot {
             driver.findElements(By.className(".wpO6b ")).get(0).click();
             System.out.println(driver.findElements(By.className(".wpO6b")).size());
             Thread.sleep(1500);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
